@@ -14,7 +14,7 @@ Navigate to https://magicseaweed.com/photos/photo-of-the-day/ and use your brows
 
 Righ click on a photo and choose "Inspect Element". The pertinent tag will be highlighted in blue in the element inspector console that opens up. 
 
-<img src="img/Screenshot1.png" width="40%" />
+<img src="areias.github.com/wallpaper/img/Screenshot1.png" width="40%" />
 
 What interests us is this tag:
 
