@@ -46,7 +46,7 @@ A good one to check for any data sources is XHR.  In this case there is only one
 
 photo?callback seems promising so click on this
 
-<img src="Screenshot2.png" width="40%" />
+<img src="img/Screenshot2.png" width="40%" />
 
 see details on the right, go to response its is 	 
 
@@ -54,7 +54,7 @@ request method is GET GET is used to request data from a specified resource.
 
 right clikc on request, see in new tab for more detials, we can see a jquery object
 
-<img src="Screenshot3.png" width="40%" />
+<img src="img/Screenshot3.png" width="40%" />
 
 
 you can use json lint https://jsonlint.com/ a reformatter to pretty print it and see that the text inside the Jquery parantheses structure better will look like
@@ -93,7 +93,7 @@ https://magicseaweed.com/api/mdkey/photo?&limit=100&fields=_id,&order_by=dateAdd
 
 and returns a json-object diretly
 
-<img src="Screenshot4.png" width="40%" />
+<img src="img/Screenshot4.png" width="40%" />
 
 
 ## Python's urllib module
