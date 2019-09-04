@@ -14,7 +14,7 @@ Navigate to https://magicseaweed.com/photos/photo-of-the-day/ and use your brows
 
 Righ click on a photo and choose "Inspect Element". The pertinent tag will be highlighted in blue in the element inspector console that opens up. 
 
-<img src="img/Screenshot1.png" width="40%" />
+<img src="img/Screenshot1.png" width="50%" />
 
 What interests us is this tag:
 
@@ -46,7 +46,7 @@ A good one to check for any data sources is XHR.  In this case there is only one
 
 photo?callback seems promising so click on this
 
-<img src="img/Screenshot2.png" width="40%" />
+<img src="img/Screenshot2.png" width="50%" />
 
 see details on the right, go to response its is 	 
 
@@ -54,7 +54,7 @@ request method is GET GET is used to request data from a specified resource.
 
 right clikc on request, see in new tab for more detials, we can see a jquery object
 
-<img src="img/Screenshot3.png" width="40%" />
+<img src="img/Screenshot3.png" width="50%" />
 
 
 you can use json lint https://jsonlint.com/ a reformatter to pretty print it and see that the text inside the Jquery parantheses structure better will look like
@@ -93,7 +93,7 @@ https://magicseaweed.com/api/mdkey/photo?&limit=100&fields=_id,&order_by=dateAdd
 
 and returns a json-object diretly
 
-<img src="img/Screenshot4.png" width="40%" />
+<img src="img/Screenshot4.png" width="50%" />
 
 
 ## Python's urllib module
