@@ -123,7 +123,7 @@ urllib.request.urlretrieve(url, "/home/areias/Downloads/POTD.jpeg")
 
 ## Set picture as background
 
-We can also set desktop background directly from our python script by using the [os module](https://docs.python.org/2/library/os.html).
+We can also set the desktop background directly from our python script by using the [os module](https://docs.python.org/2/library/os.html).
 
 ```python
 import os
