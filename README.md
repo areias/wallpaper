@@ -10,7 +10,7 @@ Magicseewead, my favourite surf forecast site, has a whole archive of epic surf 
 
 First we're going to navigate to [Magicseaweed's photo archive](https://magicseaweed.com/photos/photo-of-the-day/) and use your browser's developer tools to figure out how we can download a photo. 
 
-Righ click on a photo and choose "Inspect Element". The pertinent tag will be highlighted in blue in the element inspector console that opens up. 
+Righ click on a photo and choose "Inspect Element". The pertinent tag will be highlighted in blue in the element inspector console that opens up. (If you click on the photo you can see it in much higher resolution.)
 
 <img src="img/Screenshot1.png" width="50%" />
 
@@ -29,7 +29,7 @@ We could parse the html with BeautifulSoup and extract the ids, but notice that 
 
 The page initially loads 20 images, but if we scroll down, it executes javascript and asks the server for more images without refreshing the page. 
 
-By using the Network tab in the browser's develope tools we can try to see where our pictures are coming from.
+By using the Network tab in the browser's developer tools we can try to see where our pictures are coming from.
 
 To begin with this tab will be empty. This is because the Network view only starts recording information while it is open. Refresh the page and let's see the new requests that are loaded. 
 
@@ -39,7 +39,7 @@ The resource labeled `photo?callback` seems promising so click on this:
 
 <img src="img/Screenshot2.png" width="50%" />
 
-IF you click on the `photo?callback` request, we can see its details, such as Headers, Parameters and Response, on the frame on the right had side.
+If you click on the `photo?callback` request, we can see its details, such as Headers, Parameters and Response, on the frame on the right had side.
 
 In Headers you can see the Request URL which reflects the paramenters you can see in the Params tab:
 
@@ -52,7 +52,7 @@ The Response tab shows us a jQuery object. You can see this jQuery object in its
 <img src="img/Screenshot3.png" width="50%" />
 
 
-Using (JSONLint validator)[https://jsonlint.com/] a we can pretty print the text inside the jQuery parantheses to see that it is valid Json and looks like:
+Using [JSONLint validator](https://jsonlint.com/) a we can pretty print the text inside the jQuery parantheses to see that it is valid Json and looks like:
 
 ```json
 [{
@@ -123,7 +123,7 @@ urllib.request.urlretrieve(url, "/home/areias/Downloads/POTD.jpeg")
 
 ## Set picture as background
 
-We can also set descktop background directly from our python script by using the [os module](https://docs.python.org/2/library/os.html).
+We can also set desktop background directly from our python script by using the [os module](https://docs.python.org/2/library/os.html).
 
 ```python
 import os
@@ -134,7 +134,7 @@ os.system("gsettings set org.gnome.desktop.background picture-options zoom")
 Now we can save our script as POTD.py and run it from from the command line:
 
 ```bash
-$ python3 POTD.py
+python3 POTD.py
 ```
 
 ## Automate with cron
