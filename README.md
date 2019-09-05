@@ -3,14 +3,12 @@
 # Automatically update your wallpaper with Magicseaweed's Photo of The Day 
 
 
-Python script that downloads a photo from Magicseaweed's photo of the day archives and sets it as background wallpaper. Built using Python 3 and Ubuntu 16.04. 
+Magicseewead, my favourite surf forecast site, has a whole archive of epic surf photos. This little python script downloads a photo from Magicseaweed's Photo of The Day archives and sets it as background wallpaper. Built using Python 3 and Ubuntu 16.04. 
 
 
 ## Inspect the Photo of the Day page
 
-My favourite surf forecast site also has some epic surf photos.
-
-Navigate to https://magicseaweed.com/photos/photo-of-the-day/ and use your browser's developer tools to figure out how we can download a photo. 
+First we're going to navigate to [Magicseaweed's photo archive](https://magicseaweed.com/photos/photo-of-the-day/) and use your browser's developer tools to figure out how we can download a photo. 
 
 Righ click on a photo and choose "Inspect Element". The pertinent tag will be highlighted in blue in the element inspector console that opens up. 
 
@@ -24,40 +22,37 @@ What interests us is this tag:
 
 We can see that this is one of many other similar tags, one for each of the rest of the pictures which we can see are uniquely identified by their id.
 
-We could parse the html with BeautifulSoup and extract the ids, but notice that when you scroll to the bottom you can see that the page dynamically loads more pictures, this suggests that an easier alternative is to try to intercept the AJAX calls from the page and reproduce/replay them.
+We could parse the html with BeautifulSoup and extract the ids, but notice that when you scroll to the bottom the page dynamically loads more pictures, this suggests that an easier alternative is to try to intercept the AJAX calls from the page and reproduce/replay them.
 
 
 ## Intercepting AJAX calls
 
-how to catch AJAX calls and reproduce them using the requests library and the Google Chrome browser.
+The page initially loads 20 images, but if we scroll down, it executes javascript and asks the server for more images without refreshing the page. 
 
-like undocumented API,
+By using the Network tab in the browser's develope tools we can try to see where our pictures are coming from.
 
-Dynamic pages that are loaded by javascript worth checking out the network tool 
+To begin with this tab will be empty. This is because the Network view only starts recording information while it is open. Refresh the page and let's see the new requests that are loaded. 
 
-can intercept the requests and see where our pictures are coming from
+On the right of the Network tab you can filter by type of resource, a good one to check for any data sources is `XHR`. 
 
-To begin with it will be empty. This is because the Network view only starts recording information while it is open.
-Refresh the page and see what’s being loaded
-
-If we reload the page and see new requests
-
-A good one to check for any data sources is XHR.  In this case there is only one file that is shown in the XHR tab.
-
-photo?callback seems promising so click on this
+The resource labeled `photo?callback` seems promising so click on this:
 
 <img src="img/Screenshot2.png" width="50%" />
 
-see details on the right, go to response its is 	 
+IF you click on the `photo?callback` request, we can see its details, such as Headers, Parameters and Response, on the frame on the right had side.
 
-request method is GET GET is used to request data from a specified resource.
+In Headers you can see the Request URL which reflects the paramenters you can see in the Params tab:
 
-right clikc on request, see in new tab for more detials, we can see a jquery object
+```
+https://magicseaweed.com/api/mdkey/photo?callback=jQuery1102003300840931011728_1552915212212&approved=true&removed=false&depth=2&limit=20&fields=_id,_obj,isApproved,images.small.*,images.medium.*,isRemoved,description,dateAdded,fullPageUrl,views,user.name,spot.name,isPOTD,taken,favouriteCount,location.country.iso,browseSession.hash,browseSession.size,browseSession.currentPosition&order_by=dateAdded&order_direction=DESC&potd=true&_=1552915212213
+```
+
+The Response tab shows us a jQuery object. You can see this jQuery object in its entirety if you double click on the `photo?callback` request:
 
 <img src="img/Screenshot3.png" width="50%" />
 
 
-you can use json lint https://jsonlint.com/ a reformatter to pretty print it and see that the text inside the Jquery parantheses structure better will look like
+Using (JSONLint validator)[https://jsonlint.com/] a we can pretty print the text inside the jQuery parantheses to see that it is valid Json and looks like:
 
 ```json
 [{
@@ -76,29 +71,19 @@ you can use json lint https://jsonlint.com/ a reformatter to pretty print it and
 			"url": "\/md\/image.php?id=385758&type=PHOTOLAB&resize_type=STREAM_MEDIUM&fromS3",
 ```
 
-now we want to replicat that call and get the data, the headers section to see all the info that goes to the server in the call.
+After some experimenting in modying the parameters in the Request URL and seeing what was returned, I simplified the url to one that returns a JSON object directly with just photo IDs: 
 
-the request url, visible in Headers, 
-
-```
-https://magicseaweed.com/api/mdkey/photo?callback=jQuery1102003300840931011728_1552915212212&approved=true&removed=false&depth=2&limit=20&fields=_id,_obj,isApproved,images.small.*,images.medium.*,isRemoved,description,dateAdded,fullPageUrl,views,user.name,spot.name,isPOTD,taken,favouriteCount,location.country.iso,browseSession.hash,browseSession.size,browseSession.currentPosition&order_by=dateAdded&order_direction=DESC&potd=true&_=1552915212213
-```
-
-after some experimenting in modying the parameters o see what data is really needed, you can open a console and do various post requests to the request URL
-
-actually simplified headers to 
 ```
 https://magicseaweed.com/api/mdkey/photo?&limit=100&fields=_id,&order_by=dateAdded&order_direction=DESC&potd=true
 ```
-
-and returns a json-object diretly
 
 <img src="img/Screenshot4.png" width="50%" />
 
 
 ## Python's urllib module
 
-python script urllib has some tips on error handling https://docs.python.org/3/howto/urllib2.html#handling-exceptions
+
+An easy way to download a resource fom the internet programmatically with Python is the [urllib module](https://docs.python.org/3/howto/urllib2.html). A simple script like the one below allows us to download 100 photo IDs at a time, choose 1 ID at random, and does some minimal error handling. 
 
 ```python
 #!/usr/bin/env python
@@ -122,10 +107,7 @@ else:
     jsn=json.loads(text.decode('utf-8'))
 ```
 
-
-request 100 ids at a time, and randomly choose 1
-
-query their s3 storage directly and some googline shows s3 options instad of medium you can do resize_type=STREAM_FULL
+With the photo ID in hand, we can query their s3 storage directly and some googling shows that among the s3 options instead of medium you can do `resize_type=STREAM_FULL` to download the picture in the highest resolution.
 
 
 ```python
@@ -141,7 +123,7 @@ urllib.request.urlretrieve(url, "/home/areias/Downloads/POTD.jpeg")
 
 ## Set picture as background
 
-We can also set descktop background directly from th python script by 
+We can also set descktop background directly from our python script by using the [os module](https://docs.python.org/2/library/os.html).
 
 ```python
 import os
@@ -149,20 +131,25 @@ os.system("gsettings set org.gnome.desktop.background picture-uri file:///home/a
 os.system("gsettings set org.gnome.desktop.background picture-options zoom")
 ```
 
-Now we can run our script from the command line:
+Now we can save our script as POTD.py and run it from from the command line:
+
 ```bash
 $ python3 POTD.py
 ```
 
 ## Automate with cron
 
-Finally, we can make this script start on reboot by adding the following line to crontab by calling `crontab -e`
+Finally, we can make this script run on start up by adding the following line to crontab by calling `crontab -e`:
+
 ```bash
 @reboot /bin/sleep 60 && /usr/bin/python3 /home/areias/Projects/wallpaper/POTD.py > log 2>&1
 ```
 
 Saving a log allows you to trouble shoot in case something goes wrong.
 
-Running the script 60 seconds after start up makes sure we don't run into [permissions problems or availability of services](https://unix.stackexchange.com/questions/109804/crontabs-reboot-only-works-for-root)
+Running the script 60 seconds after start up makes sure we don't run into [permissions problems or availability of services](https://unix.stackexchange.com/questions/109804/crontabs-reboot-only-works-for-root).
+
+And now you can enjoy a new epic surf picture everytime you start your laptop! This could prove to be dangerous. 
+
 
 
