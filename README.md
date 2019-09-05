@@ -71,7 +71,7 @@ Using [JSONLint validator](https://jsonlint.com/) a we can pretty print the text
 			"url": "\/md\/image.php?id=385758&type=PHOTOLAB&resize_type=STREAM_MEDIUM&fromS3",
 ```
 
-After some experimenting in modying the parameters in the Request URL and seeing what was returned, I simplified the url to one that returns a JSON object directly with just photo IDs: 
+After some experimenting in modifying the parameters in the Request URL and seeing what was returned, I simplified the url to one that returns a JSON object directly with just photo IDs: 
 
 ```
 https://magicseaweed.com/api/mdkey/photo?&limit=100&fields=_id,&order_by=dateAdded&order_direction=DESC&potd=true
