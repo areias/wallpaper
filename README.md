@@ -3,7 +3,7 @@
 # Automatically update your wallpaper with Magicseaweed's Photo of The Day 
 
 
-Magicseewead, my favourite surf forecast site, has a whole archive of epic surf photos. This little python script downloads a photo from Magicseaweed's Photo of The Day archives and sets it as background wallpaper. Built using Python 3 and Ubuntu 16.04. 
+Magicseaweed, my favourite surf forecast site, has a whole archive of epic surf photos. This little python script downloads a photo from Magicseaweed's Photo of The Day archives and sets it as background wallpaper. Built using Python 3 and Ubuntu 16.04. 
 
 
 ## Inspect the Photo of the Day page
