@@ -12,7 +12,7 @@ First we're going to navigate to [Magicseaweed's photo archive](https://magicsea
 
 Righ click on a photo and choose "Inspect Element". The pertinent tag will be highlighted in blue in the element inspector console that opens up. (If you click on the photo you can see it in much higher resolution.)
 
-<img src="img/Screenshot1.png" width="50%" />
+<img src="img/Screenshot1.png" width="75%" />
 
 What interests us is this tag:
 
@@ -37,7 +37,7 @@ On the right of the Network tab you can filter by type of resource, a good one t
 
 The resource labeled `photo?callback` seems promising so click on this:
 
-<img src="img/Screenshot2.png" width="50%" />
+<img src="img/Screenshot2.png" width="75%" />
 
 If you click on the `photo?callback` request, we can see its details, such as Headers, Parameters and Response, on the frame on the right had side.
 
@@ -49,7 +49,7 @@ https://magicseaweed.com/api/mdkey/photo?callback=jQuery1102003300840931011728_1
 
 The Response tab shows us a jQuery object. You can see this jQuery object in its entirety if you double click on the `photo?callback` request:
 
-<img src="img/Screenshot3.png" width="50%" />
+<img src="img/Screenshot3.png" width="75%" />
 
 
 Using [JSONLint validator](https://jsonlint.com/) a we can pretty print the text inside the jQuery parantheses to see that it is valid Json and looks like:
@@ -77,7 +77,7 @@ After some experimenting in modifying the parameters in the Request URL and seei
 https://magicseaweed.com/api/mdkey/photo?&limit=100&fields=_id,&order_by=dateAdded&order_direction=DESC&potd=true
 ```
 
-<img src="img/Screenshot4.png" width="50%" />
+<img src="img/Screenshot4.png" width="75%" />
 
 
 ## Python's urllib module
